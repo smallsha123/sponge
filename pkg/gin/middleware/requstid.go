@@ -33,10 +33,10 @@ func RequestID() gin.HandlerFunc {
 		if requestID == "" {
 			requestID = krand.String(krand.R_All, 10)
 			c.Request.Header.Set(HeaderXRequestIDKey, requestID)
-			// Expose it for use in the application
-			c.Set(ContextRequestIDKey, requestID)
 		}
 
+		// Expose it for use in the application
+		c.Set(ContextRequestIDKey, requestID)
 		// Set X-Request-ID header
 		c.Writer.Header().Set(HeaderXRequestIDKey, requestID)
 
