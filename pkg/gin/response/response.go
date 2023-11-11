@@ -132,7 +132,7 @@ func respJSONWith200(c *gin.Context, code int, msg string, data ...interface{}) 
 	writeJSON(c, http.StatusOK, resp)
 }
 
-// Success return success
+// Success return success1
 func Success(c *gin.Context, data ...interface{}) {
 	respJSONWith200(c, 0, "操作成功", data...)
 }
