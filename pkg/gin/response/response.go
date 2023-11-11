@@ -134,7 +134,7 @@ func respJSONWith200(c *gin.Context, code int, msg string, data ...interface{}) 
 
 // Success return success
 func Success(c *gin.Context, data ...interface{}) {
-	respJSONWith200(c, 0, "ok", data...)
+	respJSONWith200(c, 0, "操作成功", data...)
 }
 
 // Error return error
