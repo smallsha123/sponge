@@ -18,12 +18,12 @@ type options struct {
 	maxOpenConns    int
 	connMaxLifetime time.Duration
 
-	disableForeignKey bool
-	enableTrace       bool
-
-	requestIDKey string
-	gLog         *zap.Logger
-	logLevel     logger.LogLevel
+	disableForeignKey      bool
+	enableTrace            bool
+	SkipDefaultTransaction bool
+	requestIDKey           string
+	gLog                   *zap.Logger
+	logLevel               logger.LogLevel
 }
 
 func (o *options) apply(opts ...Option) {
@@ -42,12 +42,12 @@ func defaultOptions() *options {
 		maxOpenConns:    50,               // set the maximum number of open database connections
 		connMaxLifetime: 30 * time.Minute, // sets the maximum amount of time a connection can be reused
 
-		disableForeignKey: true,  // disables the use of foreign keys, true is recommended for production environments, enabled by default
-		enableTrace:       false, // whether to enable link tracing, default is off
-
-		requestIDKey: "",          // request id key
-		gLog:         nil,         // custom logger
-		logLevel:     logger.Info, // default logLevel
+		disableForeignKey:      true,  // disables the use of foreign keys, true is recommended for production environments, enabled by default
+		enableTrace:            false, // whether to enable link tracing, default is off
+		SkipDefaultTransaction: true,
+		requestIDKey:           "",          // request id key
+		gLog:                   nil,         // custom logger
+		logLevel:               logger.Info, // default logLevel
 	}
 }
 
