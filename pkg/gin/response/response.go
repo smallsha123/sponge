@@ -2,9 +2,12 @@
 package response
 
 import (
+	"crypto/md5"
 	"encoding/json"
 	"fmt"
+	"math/rand"
 	"net/http"
+	"time"
 
 	"github.com/zhufuyi/sponge/pkg/errcode"
 
@@ -13,15 +16,30 @@ import (
 
 // Result output data format
 type Result struct {
-	Code int         `json:"code"`
-	Msg  string      `json:"msg"`
-	Data interface{} `json:"data"`
+	Code      int         `json:"code"`
+	Msg       string      `json:"msg"`
+	Data      interface{} `json:"data"`
+	TimeStamp int64       `json:"time_stamp"`
+	RequestId string      `json:"request_id"`
 }
 
 func newResp(code int, msg string, data interface{}) *Result {
+	// 生成随机的 16 位数字
+	rand.Seed(time.Now().UnixNano())
+	randomPart := fmt.Sprintf("%016d", rand.Intn(10000000000000000))
+
+	// 生成包含随机字符串和时间戳的 requestId
+	requestId := fmt.Sprintf("%s%d", randomPart, time.Now().Unix())
+
+	// 对 requestId 进行 MD5 加密
+	requestIdHash := md5.Sum([]byte(requestId))
+	requestId = fmt.Sprintf("%x", requestIdHash)
+	//md5一下
 	resp := &Result{
-		Code: code,
-		Msg:  msg,
+		Code:      code,
+		Msg:       msg,
+		TimeStamp: time.Now().Unix(),
+		RequestId: requestId,
 	}
 
 	// ensure that the data field is not nil on return, note that it is not nil when resp.data=[]interface {}, it is serialized to null
